@@ -3,6 +3,8 @@ import Login from "@/features/auth/Login";
 import Signup from "./features/auth/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Feed from "./features/feed/Feed";
+import Navbar from "./components/Navbar";
+import ProtectedLayout from "./components/ProtectedLayout";
 
 function App() {
   return (
@@ -16,8 +18,10 @@ function App() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/feed" element={<Feed />} />
-          {/* Add other protected routes here later */}
+          <Route element={<ProtectedLayout />}>
+            <Route path="/feed" element={<Feed />} />
+            {/* Add other protected routes here */}
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

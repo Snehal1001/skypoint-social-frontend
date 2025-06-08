@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { fetchFeed, votePost, type PostDto } from "./feedService";
+import {
+  fetchPostFeed,
+  followUser,
+  unfollowUser,
+  votePost,
+  type PostDto,
+} from "./feedService";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
+import CreatePost from "./CreatePost";
 
 const Feed = () => {
   const [posts, setPosts] = useState<PostDto[]>([]);
@@ -11,7 +18,7 @@ const Feed = () => {
   const loadFeed = async () => {
     setLoading(true);
     try {
-      const data = await fetchFeed();
+      const data = await fetchPostFeed();
       setPosts(data);
     } finally {
       setLoading(false);
@@ -19,7 +26,7 @@ const Feed = () => {
   };
 
   const handleVote = async (postId: string, value: number) => {
-    await votePost({postId, value});
+    await votePost({ postId, value });
     await loadFeed(); // Reload feed to update score and buttons
   };
 
@@ -30,6 +37,9 @@ const Feed = () => {
   return (
     <div className="max-w-2xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Your Feed</h1>
+
+      <CreatePost onPostCreated={loadFeed} />
+
       {loading ? (
         <p>Loading posts...</p>
       ) : posts.length === 0 ? (
@@ -38,13 +48,34 @@ const Feed = () => {
         posts.map((post) => (
           <Card key={post.postId} className="mb-4">
             <CardContent className="space-y-2 p-4">
-              <p>{post.content}</p>
-              <div className="text-sm text-gray-500">
-                Posted by {post.authorName} •{" "}
-                {formatDistanceToNow(new Date(post.timeAgo), {
-                  addSuffix: true,
-                })}
+              <div className="flex justify-between items-center text-sm font-semibold text-gray-500">
+                <span>Posted by {post.authorName}</span>
+                {post.authorId !== "1" && (
+                  <Button
+                    variant="link"
+                    className={`text-xs border rounded px-3 py-1 transition-colors duration-200 ${
+                      post.isFollowing
+                        ? "bg-white text-black border-gray-300 hover:bg-gray-100" 
+                        : "bg-black text-white hover:bg-gray-800"
+                    }`}
+                    onClick={async () => {
+                      try {
+                        if (post.isFollowing) {
+                          await unfollowUser(post.authorId);
+                        } else {
+                          await followUser(post.authorId);
+                        }
+                        loadFeed();
+                      } catch (err) {
+                        console.error("Failed to follow/unfollow", err);
+                      }
+                    }}
+                  >
+                    {post.isFollowing ? "Unfollow" : "Follow"}
+                  </Button>
+                )}
               </div>
+              <p>{post.content}</p>
               <div className="flex items-center gap-4 mt-2">
                 <Button
                   variant={post.userVote === 1 ? "default" : "outline"}
@@ -59,6 +90,7 @@ const Feed = () => {
                 >
                   👎
                 </Button>
+                <div className="text-sm text-gray-500">{post.timeAgo}</div>
               </div>
             </CardContent>
           </Card>
