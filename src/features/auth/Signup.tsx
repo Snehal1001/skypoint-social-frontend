@@ -33,7 +33,7 @@ const Signup = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <Card className="w-full max-w-md shadow-md">
         <CardContent className="space-y-6 p-6">
-          <h2 className="text-2xl font-bold text-center">Register</h2>
+          <h2 className="text-2xl font-bold text-center">Signup</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <Input

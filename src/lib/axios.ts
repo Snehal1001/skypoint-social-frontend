@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "@/features/auth/authStore";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://localhost:7288",
 });
 
 api.interceptors.request.use((config) => {

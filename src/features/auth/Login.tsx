@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login, type LoginRequest } from "./authService";
 import { useAuthStore } from "./authStore.ts";
 
@@ -75,6 +75,12 @@ const Login = () => {
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </Button>
+            <p className="text-center text-sm">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-600 underline">
+                Signup
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>
