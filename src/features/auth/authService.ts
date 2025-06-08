@@ -8,6 +8,7 @@ export type LoginRequest = {
 export type LoginResponse = {
   email: string;
   token: string;
+  currentUserId: string;
 };
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {

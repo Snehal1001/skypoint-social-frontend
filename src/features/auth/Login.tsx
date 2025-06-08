@@ -22,7 +22,7 @@ const Login = () => {
     setError(null);
     try {
       const result = await login(data);
-      loginUser(result.token, result.email);
+      loginUser(result.token, result.email, result.currentUserId);
       navigate("/feed");
     } catch (err) {
       setError("Invalid credentials");

@@ -1,4 +1,7 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+import CreatePost from "./CreatePost";
 import {
   fetchPostFeed,
   followUser,
@@ -6,14 +9,12 @@ import {
   votePost,
   type PostDto,
 } from "./feedService";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { formatDistanceToNow } from "date-fns";
-import CreatePost from "./CreatePost";
+import { useAuthStore } from "../auth/authStore";
 
 const Feed = () => {
   const [posts, setPosts] = useState<PostDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const currentUserId = useAuthStore((s) => s.currentUserId);
 
   const loadFeed = async () => {
     setLoading(true);
@@ -49,13 +50,18 @@ const Feed = () => {
           <Card key={post.postId} className="mb-4">
             <CardContent className="space-y-2 p-4">
               <div className="flex justify-between items-center text-sm font-semibold text-gray-500">
-                <span>Posted by {post.authorName}</span>
-                {post.authorId !== "1" && (
+                <span className="text-xs text-gray-500">
+                  Posted by{" "}
+                  <span className="text-xl text-black font-medium">
+                    {post.authorName}
+                  </span>
+                </span>
+                {post.authorId !== currentUserId && (
                   <Button
                     variant="link"
                     className={`text-xs border rounded px-3 py-1 transition-colors duration-200 ${
                       post.isFollowing
-                        ? "bg-white text-black border-gray-300 hover:bg-gray-100" 
+                        ? "bg-white text-black border-gray-300 hover:bg-gray-100"
                         : "bg-black text-white hover:bg-gray-800"
                     }`}
                     onClick={async () => {
