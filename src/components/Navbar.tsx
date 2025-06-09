@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
+  console.log("Navebar");
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -12,7 +12,9 @@ const Navbar = () => {
   return (
     <header className="w-full border-b shadow-sm bg-white">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <h1 className="text-lg sm:text-2xl font-semibold text-black-600">Skypoint Social</h1>
+        <h1 className="text-lg sm:text-2xl font-semibold text-black-600">
+          Skypoint Social
+        </h1>
         <Button variant="outline" onClick={handleLogout}>
           Logout
         </Button>

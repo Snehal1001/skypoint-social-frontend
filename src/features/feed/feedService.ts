@@ -9,6 +9,8 @@ export interface PostDto {
   timeAgo: string;
   userVote: number;
   isFollowing: boolean;
+  upVotes: number;
+  downVotes: number;
 }
 
 export interface VoteDto {

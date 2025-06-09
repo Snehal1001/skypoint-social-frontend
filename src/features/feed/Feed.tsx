@@ -27,8 +27,32 @@ const Feed = () => {
   };
 
   const handleVote = async (postId: string, value: number) => {
+    posts;
     await votePost({ postId, value });
-    await loadFeed(); // Reload feed to update score and buttons
+    setPosts((prevPosts) =>
+      prevPosts.map((post) => {
+        if (post.postId !== postId) return post;
+
+        // Calculate updated votes
+        let upVotes = post.upVotes;
+        let downVotes = post.downVotes;
+
+        // Remove previous vote
+        if (post.userVote === 1) upVotes--;
+        if (post.userVote === -1) downVotes--;
+
+        // Apply new vote
+        if (value === 1) upVotes++;
+        if (value === -1) downVotes++;
+
+        return {
+          ...post,
+          userVote: post.userVote === value ? 0 : value, // toggle vote
+          upVotes,
+          downVotes,
+        };
+      })
+    );
   };
 
   useEffect(() => {
@@ -89,13 +113,14 @@ const Feed = () => {
                 >
                   👍
                 </Button>
-                <span>{post.score}</span>
+                <span>{post.upVotes}</span>
                 <Button
                   variant={post.userVote === -1 ? "default" : "outline"}
                   onClick={() => handleVote(post.postId, -1)}
                 >
                   👎
                 </Button>
+                <span>{post.downVotes}</span>
                 <div className="text-sm text-gray-500">{post.timeAgo}</div>
               </div>
             </CardContent>
