@@ -15,6 +15,7 @@ const Feed = () => {
   const [posts, setPosts] = useState<PostDto[]>([]);
   const [loading, setLoading] = useState(true);
   const currentUserId = useAuthStore((s) => s.currentUserId);
+  const currentUser = useAuthStore((s) => s.email)?.split("@")[0];
 
   const loadFeed = async () => {
     setLoading(true);
@@ -61,7 +62,7 @@ const Feed = () => {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">Your Feed</h1>
+      <h1 className="text-3xl font-bold mb-6">Hello, {currentUser} 👋</h1>
 
       <CreatePost onPostCreated={loadFeed} />
 
