@@ -22,7 +22,7 @@ const Signup = () => {
     setError(null);
     try {
       const result = await signup(data);
-      loginUser(result.token, result.email);
+      loginUser(result.token, result.email, result.currentUserId);
       navigate("/feed");
     } catch (err) {
       setError("Registration failed. Email may already be taken.");

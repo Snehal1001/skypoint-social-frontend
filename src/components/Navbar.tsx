@@ -1,12 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { logout } from "@/features/auth/authService";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  console.log("Navebar");
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+
+  const handleLogout = async () => {
+    try {
+      const result = await logout();
+      localStorage.removeItem("token");
+      toast.success(`Logout in ${result.sessionDuration}`, {
+        duration: 3000,
+      });
+      navigate("/login");
+      // navigate("/login");
+    } catch (error) {
+      toast.error("Logout failed", {
+        duration: 3000,
+      });
+    }
   };
 
   return (

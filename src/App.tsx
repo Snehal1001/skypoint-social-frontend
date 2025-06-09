@@ -5,10 +5,13 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Feed from "./features/feed/Feed";
 import Navbar from "./components/Navbar";
 import ProtectedLayout from "./components/ProtectedLayout";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" richColors />
+
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
 

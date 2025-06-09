@@ -10,13 +10,21 @@ export type LoginResponse = {
   token: string;
   currentUserId: string;
 };
+export type LogOutResponse = {
+  sessionDuration: string;
+};
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await api.post("/auth/login", data);
+  const response = await api.post("/Auth/login", data);
   return response.data;
 };
 
 export const signup = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await api.post("/auth/signup", data);
+  const response = await api.post("/Auth/signup", data);
+  return response.data;
+};
+
+export const logout = async (): Promise<LogOutResponse> => {
+  const response = await api.post("Auth/logout");
   return response.data;
 };
