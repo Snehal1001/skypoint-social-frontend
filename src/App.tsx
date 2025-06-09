@@ -1,11 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "@/features/auth/Login";
-import Signup from "./features/auth/Signup";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Feed from "./features/feed/Feed";
-import Navbar from "./components/Navbar";
-import ProtectedLayout from "./components/ProtectedLayout";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
+import ProtectedLayout from "./components/ProtectedLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Signup from "./features/auth/Signup";
+import Feed from "./features/feed/Feed";
 
 function App() {
   return (
